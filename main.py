@@ -1,13 +1,13 @@
 '''
 Author: your name
 Date: 2021-09-11 09:56:10
-LastEditTime: 2021-09-16 19:40:09
+LastEditTime: 2021-10-08 19:16:00
 LastEditors: Please set LastEditors
 Description: In User Settings Edit
 FilePath: \python\softwareE\main.py
 '''
 '''目前实现中文基础检测、中文拼音替换、中文首字母替换、英文不分大小写'''
-'''只能在少量文本检测的情况下完成谐音字检测，文本数据一大就耗时很长，故注释掉了'''
+'''只能在少量文本检测的情况下完成谐音字检测，文本数据一大就耗时很长，故删掉了'''
 
 
 
@@ -27,9 +27,9 @@ def readorg(filename):
 
 def write_ans(filename, context):
     # 每次检测到就把内容添加进文件
-    ans = open(filename, 'a')
-    ans.write(context)
-    ans.close()
+    with open(filename, 'w', encoding='utf-8') as fileobject:
+        fileobject.write(context)
+    fileobject.close()
 
 
 class DFA(object):
@@ -202,7 +202,7 @@ for i in range(0, len(org)):
     res = dfa.get_match(org[i])
     # 一行里面可能包含多个敏感词汇
     for j in range(1, len(res), 2):
-        s = 'Line'+str(i+1)+':<'+res[j]+'>'+res[j-1]+'\n'
+        s = 'Line'+str(i+1)+': <'+res[j]+'> '+res[j-1]+'\n'
         total += 1
         result += s
 result = 'Total: '+str(total)+'\n'+result
